@@ -13,6 +13,7 @@ const STAGE_WIDTH = 4781;
 const STAGE_HEIGHT = 2436;
 const MIN_ZOOM = 0.2;
 const MAX_ZOOM = 3;
+const DRAG_THRESHOLD_PX = 5;
 
 // Category display config: label + border color + bg color (inline styles for Tailwind purge safety)
 const CATEGORY_CONFIG: Record<
@@ -219,7 +220,7 @@ export default function DrawingViewer({ imageSrc, parts }: DrawingViewerProps) {
     if (!isDraggingRef.current) return;
     const dx = e.clientX - dragStartRef.current.x;
     const dy = e.clientY - dragStartRef.current.y;
-    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) hasDraggedRef.current = true;
+    if (Math.abs(dx) > DRAG_THRESHOLD_PX || Math.abs(dy) > DRAG_THRESHOLD_PX) hasDraggedRef.current = true;
     setPanX(dragStartRef.current.panX + dx);
     setPanY(dragStartRef.current.panY + dy);
   }, []);
@@ -326,8 +327,7 @@ export default function DrawingViewer({ imageSrc, parts }: DrawingViewerProps) {
         <div className="mt-3 border-t border-slate-200 pt-3">
           <p className="mb-1.5 text-xs font-semibold text-slate-500">카테고리 범례</p>
           <div className="grid grid-cols-2 gap-x-2 gap-y-1">
-            {(Object.entries(CATEGORY_CONFIG) as [PartCategory, (typeof CATEGORY_CONFIG)[PartCategory]][]).map(
-              ([, cfg]) => (
+            {Object.values(CATEGORY_CONFIG).map((cfg) => (
                 <div key={cfg.label} className="flex items-center gap-1.5">
                   <span
                     className="h-2 w-2 shrink-0 rounded-full"
@@ -335,8 +335,7 @@ export default function DrawingViewer({ imageSrc, parts }: DrawingViewerProps) {
                   />
                   <span className="truncate text-xs text-slate-600">{cfg.label}</span>
                 </div>
-              ),
-            )}
+              ))}
           </div>
         </div>
       </aside>
