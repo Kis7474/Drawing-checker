@@ -10,6 +10,19 @@
 
 body {
   margin: 0;
-  background: #f1f5f9;
+  background: #1e293b;
   color: #0f172a;
+}
+
+@keyframes pulse-part {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7), 0 0 0 3px rgba(251, 191, 36, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(251, 191, 36, 0.0), 0 0 0 8px rgba(251, 191, 36, 0.0);
+  }
+}
+
+.part-selected-pulse {
+  animation: pulse-part 1.4s ease-in-out infinite;
 }
